@@ -22,4 +22,38 @@ int main() {
     }
     int current_time = 0;
     int completed_processes = 0;
+    while (completed_processes < num_processes) {
+        int highest_priority_process_index = -1;
+        float highest_priority = -1;
+        for (int i = 0; i < num_processes; i++) {
+            if (processes[i].arrival_time <= current_time && processes[i].remaining_time > 0) {
+                float priority = 1 + (float) processes[i].waiting_time / processes[i].remaining_time;
+                if (priority > highest_priority) {
+                    highest_priority = priority;
+                    highest_priority_process_index = i;
+                }
+            }
+        }
+
+        if (highest_priority_process_index == -1) {
+            current_time++;
+            continue;
+        }
+
+        printf("Current time: %d, Process %d is running\n", current_time, processes[highest_priority_process_index].pid);
+        processes[highest_priority_process_index].remaining_time--;
+        for (int i = 0; i < num_processes; i++) {
+            if (i != highest_priority_process_index && processes[i].arrival_time <= current_time && processes[i].remaining_time > 0) {
+                processes[i].waiting_time++;
+            }
+        }
+
+        if (processes[highest_priority_process_index].remaining_time == 0) {
+            printf("Process %d has completed\n", processes[highest_priority_process_index].pid);
+            completed_processes++;
+            processes[highest_priority_process_index].waiting_time = current_time - processes[highest_priority_process_index].arrival_time - processes[highest_priority_process_index].burst_time;
+        }
+
+        current_time++;
+    }
 }
