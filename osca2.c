@@ -20,4 +20,6 @@ int main() {
         processes[i].waiting_time = 0;
         processes[i].remaining_time = processes[i].burst_time;
     }
+    int current_time = 0;
+    int completed_processes = 0;
 }
