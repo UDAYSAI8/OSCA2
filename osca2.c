@@ -56,4 +56,24 @@ int main() {
 
         current_time++;
     }
+    printf("\nGantt chart:\n ");
+    for (int i = 0; i < current_time; i++) {
+        printf("--");
+    }
+    printf("\n|");
+    for (int i = 0; i < num_processes; i++) {
+        for (int j = 0; j < processes[i].burst_time; j++) {
+            printf(" ");
+        }
+        printf("|");
+    }
+    printf("\n ");
+    for (int i = 0; i < current_time; i++) {
+        printf("--");
+    }
+    printf("\n");
+   int total_waiting_time = 0;
+    for (int i = 0; i < num_processes; i++) {
+        total_waiting_time += processes[i].waiting_time;
+    }
 }
